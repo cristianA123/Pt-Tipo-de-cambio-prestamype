@@ -64,6 +64,9 @@ Para iniciar sesión y obtener un token de autenticación, realiza una solicitud
 }
 ```
 
+#### Enviar token:
+![Bearer Token {{token}}](https://cdn.discordapp.com/attachments/783095481227935744/1204857862682185768/image.png?ex=65d64253&is=65c3cd53&hm=8aba6ea742bf2d7c6fb71fb4b52f435c683c02779e43ff7ae12300f555d935d5&)
+
 #### Crear Solicitud
 
 Para crear Solicitud, realiza una solicitud POST a la siguiente URL:
