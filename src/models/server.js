@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const { dbConnection } = require("../database/config");
-const { logErrors, errorHandler } = require("../middlewares");
+const { logErrors, errorHandler, boomErrorHandler } = require("../middlewares");
 
 class Server {
   constructor() {
@@ -44,6 +44,7 @@ class Server {
 
   middlewaresErrors() {
     this.app.use(logErrors);
+    this.app.use(boomErrorHandler);
     this.app.use(errorHandler);
   }
 

@@ -1,4 +1,4 @@
-
+const boom = require('@hapi/boom');
 const { Exchange } = require('../models');
 const { getRates } = require('../api/api');
 
@@ -14,10 +14,7 @@ class ExchangeService {
 
     const tasa_de_cambio = await getRates()
     if (!tasa_de_cambio) {
-      return res.status(500).json({
-        success: false,
-        message: "Error al obtener la tasa de cambio",
-      });
+        throw boom.notFound('Error al obtener la tasa de cambio');
     }
 
     const monto_recibir =
@@ -37,32 +34,28 @@ class ExchangeService {
 
   }
 
-  async find(id_usuario) {
-    const data = await Exchange.find({ id_usuario });
+  async find(userId) {
+    const data = await Exchange.find({ id_usuario: userId });
     return data;
   }
 
-//   async findOne(id) {
-//     const category = await models.Category.findByPk(id, {
-//       // include: ['products']
-//     });
-//     if (!category) {
-//       throw boom.notFound('category not found');
-//     }
-//     return category;
-//   }
+  async findOne(exchangeId, userId) {
 
-//   async update(id, changes) {
-//     const category = await this.findOne(id);
-//     const rta = await category.update(changes);
-//     return rta;
-//   }
+    const data = await Exchange.findOne({ _id: exchangeId, id_usuario: userId });
+    if (!data) {
+      throw boom.notFound('No se encontro su solicitudes de cambio.');
+    }
+    return data;
+  }
 
-//   async delete(id) {
-//     const category = await this.findOne(id);
-//     await category.destroy();
-//     return { id };
-//   }
+
+  async delete(exchangeId, userId) {
+    const data = await Exchange.findOneAndDelete({ _id: exchangeId, id_usuario: userId });
+    if (!data) {
+        throw boom.notFound('No se encontro su solicitudes de cambio.');
+    }
+    return data;
+  }
 
 }
 
