@@ -5,7 +5,6 @@ const Usuario = require("../models/user");
 const { config } = require("../config/config");
 
 const validateJWT = async (req = request, res = response, next) => {
-  // Obtener el token del encabezado "Authorization"
   const authHeader = req.header("Authorization");
   
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
