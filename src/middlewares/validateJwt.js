@@ -5,14 +5,17 @@ const Usuario = require("../models/user");
 const { config } = require("../config/config");
 
 const validateJWT = async (req = request, res = response, next) => {
-  const token = req.header("x-token");
-
-  if (!token) {
+  // Obtener el token del encabezado "Authorization"
+  const authHeader = req.header("Authorization");
+  
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       success: false,
-      msg: "No hay token en la petición",
+      msg: "No hay token en la petición o el formato es incorrecto",
     });
   }
+
+  const token = authHeader.split(" ")[1];
 
   try {
     const { uid } = jwt.verify(token, config.secretorprivatekey);
