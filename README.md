@@ -23,16 +23,12 @@ Proporciona una API REST para crear usuarios, autenticación, Soliticitudes de c
     cd Pt-Tipo-de-cambio-prestamype
     ```
 
-3. Construye la imagen de Docker:
-
-    ```bash
-    docker build -t nombre-de-tu-proyecto .
-    ```
+3. crear un archivo `.env` y pega los datos de `.example.env`:
 
 4. Levanta el contenedor Docker:
 
     ```bash
-    docker run -d -p 4000:4000 nombre-de-tu-proyecto
+     docker-compose up --build -d
     ```
 
 ### Acceder a la API
