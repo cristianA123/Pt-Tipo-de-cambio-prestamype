@@ -9,6 +9,8 @@ RUN npm install
 
 COPY . ./
 
+RUN cat .env.example > .env
+
 EXPOSE 4000
 
 
