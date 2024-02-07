@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  # Base de datos MongoDB
+  mongo-db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodata:/data/db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    command: ['--auth']
+    networks:
+      - my-network
+
+  # Servidor de API REST
+  api-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo-db
+    environment:
+      - MONGODB_URI=mongodb://cristian:123456@mongo-db:27017
+    networks:
+      - my-network
+
+
+networks:
+  my-network:
+
+# volumes:
+#   mongo-data:
