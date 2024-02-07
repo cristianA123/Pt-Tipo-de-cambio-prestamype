@@ -3,33 +3,18 @@ const axios = require("axios");
 
 const { Exchange } = require("../models");
 const { getRates } = require("../api/api");
+const ExchangeService = require("../services/exchange");
 
-const TIPO_DE_CAMIBIO = 'compra'
 
-const createExchange = async (req = response, res = request) => {
+const exchangeService = new ExchangeService();
+
+const createExchange = async (req = response, res = request, next) => {
   try {
-    const { tipo_de_cambio, monto_enviar } = req.body;
 
-    const tasa_de_cambio = await getRates()
-    if (!tasa_de_cambio) {
-      return res.status(500).json({
-        success: false,
-        message: "Error al obtener la tasa de cambio",
-      });
-    }
+    const body = req.body;
+    const id_usuario = req.user.id;
 
-    const monto_recibir =
-      tipo_de_cambio === TIPO_DE_CAMIBIO
-        ? monto_enviar * tasa_de_cambio.purchase_price
-        : monto_enviar / tasa_de_cambio.sale_price;
-
-    const exchange = await Exchange.create({
-      tipo_de_cambio,
-      tasa_de_cambio,
-      monto_enviar,
-      monto_recibir,
-      id_usuario: req.user.id,
-    });
+    const exchange = await exchangeService.create(body, id_usuario, res);
 
     return res.status(201).json({
       success: true,
@@ -41,10 +26,10 @@ const createExchange = async (req = response, res = request) => {
   }
 };
 
-const listExchange = async (req, res) => {
+const listExchange = async (req, res, next) => {
   try {
-      const userId = req.user.id;
-      const data = await Exchange.find({ id_usuario: userId });
+      const id_usuario = req.user.id;
+      const data = await exchangeService.find(id_usuario);
       return res.status(200).json({
         success: true,
         data
@@ -76,7 +61,7 @@ const getDetailExchange  = async (req, res, next) => {
 }
 
 
-const deleteExchange  = async (req, res) => {
+const deleteExchange  = async (req, res, next) => {
   try {
       const userId = req.user.id;
       const exchangeId = req.params.id;
@@ -88,6 +73,7 @@ const deleteExchange  = async (req, res) => {
           });
       }
       return res.json({ 
+        success: true,
         message: 'Se elimino su solicitudes de cambio' 
       });
 
