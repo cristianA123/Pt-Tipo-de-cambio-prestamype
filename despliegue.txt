@@ -1,0 +1,40 @@
+Asumiendo:
+* Ya existe una db y usted tiene un string de conexión válido.
+* La db es pública y no tiene filtro de IP.
+Pasos:
+
+
+1. Crear una Instancia de la Máquina Virtual (VM).
+
+Se debe crear una nueva instancia de VM con las siguientes consideraciones:
+Sistema Operativo: Ubuntu 20.
+Especificaciones de Hardware: RAM, CPU y almacenamiento según las necesidades de la aplicación.
+
+2 Configurar los Puertos de la Máquina Virtual.
+
+Configurar los puertos de la máquina virtual para permitir el tráfico entrante en el puerto que 
+utilizará la aplicación Node.js. Esto puede hacerse a través de la configuración de firewall de la VM.
+
+3. Subir el Código de la Aplicación a la VM en su Formato (Build)
+
+Transfiere el código de la aplicación Node.js a la máquina virtual en su formato de construcción (build).
+Esto puede incluir archivos compilados, empaquetados o listos para ejecutar.
+
+4. Configurar las Variables de Entorno
+
+Configurar las variables de entorno necesarias para la aplicación, tales como:
+La cadena de conexión a la base de datos.
+El puerto en el que escuchará la aplicación.
+La clave secreta para la autenticación JWT.
+
+5. Instalar las Dependencias del Proyecto
+
+6. Usar Nginx como Balanceador de Carga
+
+Configurar Nginx como un balanceador de carga para distribuir el tráfico entre múltiples instancias de la aplicación.
+Esto se hace configurando Nginx para que apunte al puerto donde se encuentra alojada la aplicación.
+
+
+7. Instalar PM2
+
+Instalar PM2 globalmente en la máquina virtual para gestionar el proceso de la aplicación.
