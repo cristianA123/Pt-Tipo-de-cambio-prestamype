@@ -31,6 +31,3 @@ services:
 
 networks:
   my-network:
-
-# volumes:
-#   mongo-data:
