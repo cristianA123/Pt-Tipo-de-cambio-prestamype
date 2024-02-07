@@ -1,20 +1,17 @@
-const boom = require('@hapi/boom');
-const { Exchange } = require('../models');
-const { getRates } = require('../api/api');
+const boom = require("@hapi/boom");
+const { Exchange } = require("../models");
+const { getRates } = require("../api/api");
 
-const TIPO_DE_CAMIBIO = 'compra'
+const TIPO_DE_CAMIBIO = "compra";
 
 class ExchangeService {
-
-  constructor(){
-  }
+  constructor() {}
   async create(data, id_usuario, res) {
-
     const { tipo_de_cambio, monto_enviar } = data;
 
-    const tasa_de_cambio = await getRates()
+    const tasa_de_cambio = await getRates();
     if (!tasa_de_cambio) {
-        throw boom.notFound('Error al obtener la tasa de cambio');
+      throw boom.notFound("Error al obtener la tasa de cambio");
     }
 
     const monto_recibir =
@@ -31,7 +28,6 @@ class ExchangeService {
     });
 
     return exchange;
-
   }
 
   async find(userId) {
@@ -40,23 +36,26 @@ class ExchangeService {
   }
 
   async findOne(exchangeId, userId) {
-
-    const data = await Exchange.findOne({ _id: exchangeId, id_usuario: userId });
+    const data = await Exchange.findOne({
+      _id: exchangeId,
+      id_usuario: userId,
+    });
     if (!data) {
-      throw boom.notFound('No se encontro su solicitudes de cambio.');
+      throw boom.notFound("No se encontro su solicitudes de cambio.");
     }
     return data;
   }
-
 
   async delete(exchangeId, userId) {
-    const data = await Exchange.findOneAndDelete({ _id: exchangeId, id_usuario: userId });
+    const data = await Exchange.findOneAndDelete({
+      _id: exchangeId,
+      id_usuario: userId,
+    });
     if (!data) {
-        throw boom.notFound('No se encontro su solicitudes de cambio.');
+      throw boom.notFound("No se encontro su solicitudes de cambio.");
     }
     return data;
   }
-
 }
 
 module.exports = ExchangeService;

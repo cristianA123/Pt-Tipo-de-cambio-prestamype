@@ -1,15 +1,9 @@
-
-
-
-const Server = require('./server');
-const User = require('./user');
-const Exchange = require('./exchange');
-
-
+const Server = require("./server");
+const User = require("./user");
+const Exchange = require("./exchange");
 
 module.exports = {
-    Server,
-    User,
-    Exchange
-}
-
+  Server,
+  User,
+  Exchange,
+};

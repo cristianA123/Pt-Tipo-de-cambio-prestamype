@@ -1,46 +1,21 @@
-const { response, request } = require('express');
-const bcryptjs = require('bcryptjs');
+const { response } = require("express");
 
+const UserService = require("../services/users");
 
-const User = require('../models/user');
+const userService = new UserService();
+const createUser = async (req, res = response, next) => {
+  try {
+    const user = await userService.create(req.body);
 
-
-
-const usuariosGet = async(req = request, res = response) => {
-
-    const { limite = 5, desde = 0 } = req.query;
-
-    const [ total, usuarios ] = await Promise.all([
-        User.countDocuments(),
-        User.find()
-            .skip( Number( desde ) )
-            .limit(Number( limite ))
-    ]);
-
-    res.json({
-        total,
-        usuarios
+    res.status(201).json({
+      success: true,
+      user,
     });
-}
-
-const createUser = async(req, res = response) => {
-    
-    const { name, email, password } = req.body;
-    const usuario = new User({ name, email, password });
-
-    const salt = bcryptjs.genSaltSync();
-    usuario.password = bcryptjs.hashSync( password, salt );
-
-    await usuario.save();
-
-    res.json({
-        usuario
-    });
-}
-
-
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
-    usuariosGet,
-    createUser
-}
+  createUser,
+};

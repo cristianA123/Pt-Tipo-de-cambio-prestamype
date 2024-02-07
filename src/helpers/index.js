@@ -1,11 +1,7 @@
-
-
-const dbValidate = require('./dbValidate');
-const generateJWT   = require('./generateJWT');
-
-
+const dbValidate = require("./dbValidate");
+const generateJWT = require("./generateJWT");
 
 module.exports = {
-    ...dbValidate,
-    ...generateJWT, 
-}
+  ...dbValidate,
+  ...generateJWT,
+};

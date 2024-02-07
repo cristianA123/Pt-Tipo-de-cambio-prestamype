@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-  # Base de datos MongoDB
   mongo-db:
     image: mongo:latest
     ports:
@@ -16,7 +15,6 @@ services:
     networks:
       - my-network
 
-  # Servidor de API REST
   api-server:
     build:
       context: .

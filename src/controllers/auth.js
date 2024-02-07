@@ -4,45 +4,22 @@ const bcryptjs = require("bcryptjs");
 const User = require("../models/user");
 
 const { generateJWT } = require("../helpers/generateJWT");
+const AuthService = require("../services/auth");
 
-
-const login = async (req, res = response) => {
-  const { email, password } = req.body;
-
+const authService = new AuthService();
+const login = async (req, res = response, next) => {
   try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({
-        success: false,
-        message: "Usuario / Password no son correctos",
-      });
-    }
-
-    const validPassword = bcryptjs.compareSync(password, user.password);
-    if (!validPassword) {
-      return res.status(400).json({
-        success: false,
-        message: "Usuario / Password no son correctos",
-      });
-    }
-
-    const token = await generateJWT(user.id);
+    const data = await authService.login(req.body);
 
     return res.status(200).json({
       success: true,
-      user,
-      token,
+      data,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      success: false,
-      message: "Hable con el administrador",
-    });
+    next(error);
   }
 };
 
 module.exports = {
   login,
-
 };
